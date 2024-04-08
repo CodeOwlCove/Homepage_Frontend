@@ -5,13 +5,16 @@
 <template>
   <ul class="flex space-x-4 text-center mt-5">
     <li class="flex-1">
-      <RouterLink to="/">Animal Race Game</RouterLink>
+      <RouterLink to="/">Home</RouterLink>
+    </li>
+    <li class="flex-1">
+      <RouterLink to="/AnimalRaceGame">Animal Race Game</RouterLink>
     </li>
     <li class="flex-1">
       <RouterLink to="/about">About</RouterLink>
     </li>
     <li class="flex-1">
-      <RouterLink to="/about">Impressum</RouterLink>
+      <RouterLink to="/Impressum">Impressum</RouterLink>
     </li>
   </ul>
 
