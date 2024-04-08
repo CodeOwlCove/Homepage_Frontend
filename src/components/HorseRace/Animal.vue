@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import {computed, defineProps, onMounted, onUnmounted, ref} from 'vue';
 import {watch} from 'vue';
+import {AnimalImageGenerator} from "@/components/HorseRace/AnimalImageGenerator";
 
 const props = defineProps<{ name: string; id: number , progress: number, state: string, tickTime: number}>();
+const animalImageGenerator = new AnimalImageGenerator();
 
-let runningImage = "src/assets/HorseRace/Animals/Animal_" + Math.floor(Math.random() * (8)) + "_Running.gif";
-let idleImage = "src/assets/HorseRace/Animals/Animal_" + Math.floor(Math.random() * (8)) + "_Idle.gif";
+let animalImages: string[] = animalImageGenerator.getRandomAnimalImageSet();
+
+let runningImage = animalImages[0];
+let idleImage = animalImages[1];
 let currentImage = idleImage;
 
 onMounted(() => {
