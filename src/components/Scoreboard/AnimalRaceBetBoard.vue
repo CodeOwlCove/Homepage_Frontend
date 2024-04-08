@@ -6,7 +6,7 @@ import {useBetStore} from "@/stores/BetStore";
 const betStore = useBetStore();
 
 onMounted(() => {
-  betStore.startUpdatingBets(3000);
+  betStore.startUpdatingBets(1000);
 });
 
 </script>

@@ -21,7 +21,7 @@ export const useBetStore = defineStore("BetStore",  {
         },
 
         async updateBetScore(){
-            await axios.get("http://localhost:8080/GetAnimalRaceBets")
+            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/GetAnimalRaceBets")
                 .then((response) => {
                     const parsedData = [];
                     for (const username in response.data) {

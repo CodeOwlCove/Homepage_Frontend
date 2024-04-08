@@ -1,10 +1,11 @@
-<script setup lang="ts">
+<script setup lang="ts" xmlns:v="http://www.w3.org/1999/xhtml">
 import {ref, onMounted, onUnmounted} from 'vue';
 import Animal from './Animal.vue';
 import {useAnimalStore} from "@/stores/AnimalRaceStore";
 import {storeToRefs} from "pinia";
 import PointsScoreboard from "@/components/Scoreboard/PointsScoreboard.vue";
 import AnimalRaceBetBoard from "@/components/Scoreboard/AnimalRaceBetBoard.vue";
+import WinnerTable from "@/components/HorseRace/WinnerTable.vue";
 
 const animalStore = useAnimalStore();
 
@@ -14,32 +15,31 @@ const winningProgress : number = 9000;
 const tickTime = 250;
 
 onMounted(() => {
-  const horseUpdateInterval = setInterval(() => {
+  setInterval(() => {
     animalStore.updateProgress();
   }, tickTime);
 
-  addEventListener('resize', () => {
-    const td_element = document.getElementById('animal_table_data');
-    const animalRows = document.getElementsByClassName('animalRow');
-    const raceContainer = document.getElementsByClassName
-  });
-
+  setInterval(() => {
+    animalStore.updateState();
+  }, 1000);
 });
-
-onUnmounted(() => {
-  removeEventListener('resize', () => {
-    console.log('removing event listener');
-  });
-})
-
 </script>
 
 <template>
-  <div class="border border-red-50 mt-10">
-    <h1 class="bold text-4xl underline m-2">Animal Racing</h1>
+  <div class="border border-red-50 mt-6">
+    <div class="grid grid-cols-2 mt-2 text-center">
+      <div class="col-span-1 m-2">
+        <h1 class="bold text-4xl underline">Animal Racing</h1>
+      </div>
+      <div class="col-span-1 mt-2">
+        <p class="bold text-2xl">Current Phase: {{ animalStore.getCurrentState[0] }}</p>
+        <p class="text-1xl" v-if="animalStore.getCurrentState[1] != '-1'">Remaining time in Phase: {{ animalStore.getCurrentState[1] }}</p>
+        <p class="text-1xl" v-else> Race in Progress... </p>
+      </div>
+    </div>
     <br>
     <br>
-    <div class="m-4 race-container">
+    <div class=" m-4 race-container">
       <table class="race-table">
         <tr class="animalRow" v-for="(animal, index) in animalStore.getAnimals">
           <td class="animalName">{{ animal.name }} </td>
@@ -54,6 +54,7 @@ onUnmounted(() => {
       <PointsScoreboard></PointsScoreboard>
       <AnimalRaceBetBoard></AnimalRaceBetBoard>
     </div>
+    <WinnerTable></WinnerTable>
   </div>
 </template>
 
@@ -66,10 +67,6 @@ onUnmounted(() => {
 
 .animalName {
   width: 10px;
-}
-
-.animalRow{
-  padding: 30px 1px 1px 1px;
 }
 
 table tr td {

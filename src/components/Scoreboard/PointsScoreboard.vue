@@ -9,8 +9,6 @@ onMounted(() => {
   pointScoreStore.startUpdatingPoints(10000);
 });
 
-console.log(pointScoreStore.user);
-
 </script>
 
 <template>

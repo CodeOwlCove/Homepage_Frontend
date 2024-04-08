@@ -21,7 +21,7 @@ export const usePointScoreStore = defineStore("PointScoreStore",  {
         },
 
         async updatePointsHighscore(){
-            await axios.get("http://localhost:8080/GetPointsHighscore")
+            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/GetPointsHighscore")
                 .then((response) => {
                     this.setPoints(response.data);
                 }).catch((error) => {
