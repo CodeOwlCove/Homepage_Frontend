@@ -1,5 +1,10 @@
 import {defineStore} from "pinia";
 import axios from "axios";
+import https from "https";
+
+const httpsAgent = new https.Agent({
+    rejectUnauthorized: false, // This line will ignore SSL certificate verification
+});
 
 export const useBetStore = defineStore("BetStore",  {
     //state
@@ -21,7 +26,7 @@ export const useBetStore = defineStore("BetStore",  {
         },
 
         async updateBetScore(){
-            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/GetAnimalRaceBets")
+            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/GetAnimalRaceBets", {httpsAgent})
                 .then((response) => {
                     const parsedData = [];
                     for (const username in response.data) {

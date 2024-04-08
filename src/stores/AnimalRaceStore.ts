@@ -1,7 +1,12 @@
 import {defineStore } from "pinia";
 import axios from "axios";
+import * as https from "https";
 
-export const useAnimalStore = defineStore("AnimalRaceStore",  {
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false, // This line will ignore SSL certificate verification
+});
+
+export const useAnimalStore = defineStore("AnimalRaceStore",   {
     //state
     state:() => {
         return {
@@ -33,7 +38,7 @@ export const useAnimalStore = defineStore("AnimalRaceStore",  {
         },
 
         async updateProgress(){
-            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/animalRaceUpdateProgress")
+            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/animalRaceUpdateProgress" , {httpsAgent})
                 .then((response) => {
                     this.setAnimals(response.data);
                 }).catch((error) => {
@@ -42,7 +47,7 @@ export const useAnimalStore = defineStore("AnimalRaceStore",  {
         },
 
         async updateState(){
-            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/animalRaceState")
+            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/animalRaceState", {httpsAgent})
                 .then((response) => {
                     this.currentState = response.data;
 
@@ -58,7 +63,7 @@ export const useAnimalStore = defineStore("AnimalRaceStore",  {
         },
 
         async updateLastWinners(){
-            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/getLastWinners")
+            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/getLastWinners", {httpsAgent})
                 .then((response) => {
                     this.displayPlacementList = true;
                     this.lastWinners = response.data;
