@@ -26,7 +26,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm run build --if-present
+    - name: Install NPM
+      run: npm install
+      
+    - name: Build App
+      run: npm run build
     
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag homepage_backend_app:$(date +%s)
