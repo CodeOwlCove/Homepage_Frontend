@@ -17,7 +17,7 @@ let eventSource: EventSource | null = null;
 const tickTime = 250;
 
 onMounted(() => {
-  eventSource = new EventSource("http://localhost:8080/getAnimalRaceInformation");
+  eventSource = new EventSource(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/getAnimalRaceInformation");
   if(eventSource){
     eventSource.onmessage = ((event) => {
       animalStore.parseAnimalRaceInformationData(event.data);
