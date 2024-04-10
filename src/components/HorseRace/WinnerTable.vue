@@ -15,7 +15,7 @@ const animalStore = useAnimalStore();
             <table>
               <tr v-for="(item, index) in animalStore.getLastWinners">
                 <td class="px-2"> {{index + 1}}. </td>
-                <td class="px-2"> {{ animalStore.getAnimalNameById(index) }}</td>
+                <td class="px-2"> {{ animalStore.getAnimalNameById(parseInt(animalStore.getLastWinners[index])) }}</td>
               </tr>
             </table>
           </div>
