@@ -98,6 +98,4 @@ export const useAnimalStore = defineStore("AnimalRaceStore",   {
             return "Unknown";
         }
     }
-
-    //getter
 })

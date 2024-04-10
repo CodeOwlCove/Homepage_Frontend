@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
+import {onMounted, onUnmounted} from "vue";
 import {usePointScoreStore} from "@/stores/PointScoresStore";
 
 const pointScoreStore = usePointScoreStore();
+var timer: any;
 
 onMounted(() => {
   pointScoreStore.updatePointsHighscore();
-  pointScoreStore.startUpdatingPoints(10000);
+  timer = setInterval(() => { pointScoreStore.updatePointsHighscore(); }, 1000);
+});
+
+onUnmounted(() => {
+  clearInterval(timer);
 });
 
 </script>
