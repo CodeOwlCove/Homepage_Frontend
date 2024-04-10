@@ -34,7 +34,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="border border-red-50 mt-6">
+  <div class="border border-red-600 mt-6">
     <div class="grid grid-cols-2 mt-2 text-center">
       <div class="col-span-1 m-2">
         <h1 class="bold text-4xl underline">Animal Racing</h1>
@@ -51,7 +51,11 @@ onUnmounted(() => {
       <table class="race-table">
         <tr class="animalRow" v-for="(animal, index) in animalStore.getAnimals">
           <td class="animalName">{{ animal.name }} </td>
-          <td class="border" id="animal_table_data">
+          <td class="border bg-gray-950" v-if="index%2==0" id="animal_table_data">
+            <Animal :id="animal.id" :index="index" :progress="animal.progress" :name="animal.name" :state="animal.state" :tickTime="tickTime"></Animal>
+            <div class="finish-line"></div>
+          </td>
+          <td class="border bg-gray-900" v-else id="animal_table_data">
             <Animal :id="animal.id" :index="index" :progress="animal.progress" :name="animal.name" :state="animal.state" :tickTime="tickTime"></Animal>
             <div class="finish-line"></div>
           </td>
