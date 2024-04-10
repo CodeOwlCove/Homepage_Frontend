@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, defineProps, onMounted, onUnmounted, ref} from 'vue';
+import {defineProps, onMounted, onUnmounted} from 'vue';
 import {watch} from 'vue';
 import {AnimalImageGenerator} from "@/components/HorseRace/AnimalImageGenerator";
 
@@ -48,7 +48,7 @@ watch(() => props.progress, (newValue, oldValue) => {
 <template>
   <div>
     <div>
-      <img :id="'animal_' + id" :src="currentImage" height="50" width="50" :style="{transition: tickTime + 'ms'}"/>
+      <img :id="'animal_' + id" :src="currentImage" height="50" width="50" :style="{transition: 'left ' + tickTime + 'ms ease-in-out'}"/>
     </div>
     <div id="invis-animal-container"></div>
   </div>

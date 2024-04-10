@@ -1,13 +1,35 @@
 import {defineStore } from "pinia";
 import axios from "axios";
 
+interface Animal{
+    id: number;
+    name: string;
+    state: string;
+    progress: number;
+}
+
+interface Bet{
+    username: string;
+    animalName: string;
+    animalid: number;
+    betAmount: number;
+}
+
+interface BetDetails{
+    animalName: string;
+    animalId: number;
+    betAmount: number;
+}
+
 export const useAnimalStore = defineStore("AnimalRaceStore",   {
     //state
     state:() => {
         return {
-            animals: {} as {id: number, name: string, state: string, progress: number}[],
-            currentState: ["" , ""] as string[],
+            animals: {} as Animal[],
+            currentState: "-1" as string,
             lastWinners: [] as string[],
+            timeUntilNextGameState: -1 as number,
+            animalRaceBets: {} as Bet[],
             displayPlacementList: true as boolean,
         }
     },
@@ -16,7 +38,7 @@ export const useAnimalStore = defineStore("AnimalRaceStore",   {
         getAnimals(): {id: number, name: string, state: string, progress: number}[]{
             return this.animals;
         },
-        getCurrentState(): string[]{
+        getCurrentState(): string{
             return this.currentState;
         },
         getLastWinners(): string[]{
@@ -24,6 +46,12 @@ export const useAnimalStore = defineStore("AnimalRaceStore",   {
         },
         getDisplayPlacementList(): boolean{
             return this.displayPlacementList;
+        },
+        getTimeUntilNextGameState(): number{
+            return this.timeUntilNextGameState;
+        },
+        getAnimalRaceBets(): { username: string, animalName: string, animalid: number, betAmount: number}[]{
+            return this.animalRaceBets;
         }
     },
 
@@ -31,40 +59,43 @@ export const useAnimalStore = defineStore("AnimalRaceStore",   {
         setAnimals(newHorses: {id: number, name: string, state: string, progress: number}[]){
             this.animals = newHorses;
         },
-
-        async updateProgress(){
-            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/animalRaceUpdateProgress")
-                .then((response) => {
-                    this.setAnimals(response.data);
-                }).catch((error) => {
-                    console.log(error);
-                });
+        setAnimalRaceBets(newAnimalRaceBets: { username: string, animalName: string, animalid: number, betAmount: number}[]){
+            this.animalRaceBets = newAnimalRaceBets;
         },
+        parseAnimalRaceInformationData(data: string){
+            const parsedData = JSON.parse(data);
 
-        async updateState(){
-            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/animalRaceState")
-                .then((response) => {
-                    this.currentState = response.data;
+            this.setAnimals(parsedData.animals as Animal[]);
+            this.currentState = parsedData.gameState as string;
+            this.timeUntilNextGameState = Math.floor(parsedData.timeUntilNextGameState) as number;
 
-                    if(this.currentState[0] === "FINISHED" && !this.displayPlacementList)
-                            this.updateLastWinners();
+            if(this.currentState === "BETTING" && this.timeUntilNextGameState <= 5 || this.currentState === "RACING")
+                this.displayPlacementList = false;
+            else if(this.displayPlacementList === false && this.currentState === "FINISHED")
+                this.displayPlacementList = true;
 
-                    if(this.currentState[0] === "BETTING" && Number.parseInt(this.currentState[1]) <= 5 && this.displayPlacementList)
-                            this.displayPlacementList = false;
+            this.lastWinners = parsedData.lastPlacementList as string[];
 
-                }).catch((error) => {
-                    console.log(error);
-                });
+
+            const newBets: Bet[] = Object.entries(parsedData.placedBets).map(([key, value]) => {
+                const betDetails = value as BetDetails;
+                return {
+                    username: key,
+                    animalName: betDetails.animalName,
+                    animalid: betDetails.animalId,
+                    betAmount: betDetails.betAmount
+                } as Bet;
+            });
+
+            this.setAnimalRaceBets(newBets);
         },
-
-        async updateLastWinners(){
-            await axios.get(import.meta.env.VITE_ANIMAL_RACE_ENDPOINT + "/getLastWinners")
-                .then((response) => {
-                    this.displayPlacementList = true;
-                    this.lastWinners = response.data;
-                }).catch((error) => {
-                    console.log(error);
-                });
+        getAnimalNameById(id: number): string{
+            for (const animal of this.animals){
+                if (animal.id === id){
+                    return animal.name;
+                }
+            }
+            return "Unknown";
         }
     }
 

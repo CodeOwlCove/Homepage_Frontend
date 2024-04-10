@@ -12,17 +12,25 @@ const animalStore = useAnimalStore();
 const maxProgress : number = 10000;
 const winningProgress : number = 9000;
 
+let eventSource: EventSource | null = null;
+
 const tickTime = 250;
 
 onMounted(() => {
-  setInterval(() => {
-    animalStore.updateProgress();
-  }, tickTime);
-
-  setInterval(() => {
-    animalStore.updateState();
-  }, 1000);
+  eventSource = new EventSource("http://localhost:8080/getAnimalRaceInformation");
+  if(eventSource){
+    eventSource.onmessage = ((event) => {
+      animalStore.parseAnimalRaceInformationData(event.data);
+    });
+  }
 });
+
+onUnmounted(() => {
+  if (eventSource) {
+    eventSource.close();
+  }
+});
+
 </script>
 
 <template>
@@ -32,8 +40,8 @@ onMounted(() => {
         <h1 class="bold text-4xl underline">Animal Racing</h1>
       </div>
       <div class="col-span-1 mt-2">
-        <p class="bold text-2xl">Current Phase: {{ animalStore.getCurrentState[0] }}</p>
-        <p class="text-1xl" v-if="animalStore.getCurrentState[1] != '-1'">Remaining time in Phase: {{ animalStore.getCurrentState[1] }}</p>
+        <p class="bold text-2xl">Current Phase: {{ animalStore.getCurrentState }}</p>
+        <p class="text-1xl" v-if="animalStore.getCurrentState != 'RACING'">Remaining time in Phase: {{ animalStore.getTimeUntilNextGameState }}</p>
         <p class="text-1xl" v-else> Race in Progress... </p>
       </div>
     </div>

@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import {useAnimalStore} from "@/stores/AnimalRaceStore";
-import {onMounted} from "vue";
 
 const animalStore = useAnimalStore();
-
-onMounted(async () => {
-  await animalStore.updateLastWinners();
-});
 
 </script>
 
@@ -16,9 +11,14 @@ onMounted(async () => {
         <div class="text-center">
           <h1 class="bold text-2xl underline mt-3">Winners</h1>
           <br>
-          <ol v-for="(item, index) in animalStore.getLastWinners">
-            <li>{{index+1}}. {{ item }}</li>
-          </ol>
+          <div class="flex justify-center">
+            <table>
+              <tr v-for="(item, index) in animalStore.getLastWinners">
+                <td class="px-2"> {{index + 1}}. </td>
+                <td class="px-2"> {{ animalStore.getAnimalNameById(index) }}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>

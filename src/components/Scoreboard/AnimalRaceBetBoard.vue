@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import {onMounted, onUnmounted} from "vue";
-import {useBetStore} from "@/stores/BetStore";
 
-
-const betStore = useBetStore();
-
-onMounted(() => {
-  betStore.startUpdatingBets(1000);
-});
+import {useAnimalStore} from "@/stores/AnimalRaceStore";
+const animalRaceStore = useAnimalStore();
 
 </script>
 
@@ -22,7 +16,7 @@ onMounted(() => {
           <th class="w-3/12 border border-slate-600 text-xl bold">Animal</th>
           <th class="w-3/12 border border-slate-600 text-xl bold">Bet</th>
         </tr>
-        <tr v-for="(item, index) in betStore.getAnimalRaceBets" :key="index">
+        <tr v-for="(item, index) in animalRaceStore.getAnimalRaceBets" :key="index">
           <td class="w-6/12 border border-slate-700"> {{ item.username }} </td>
           <td class="w-3/12 border border-slate-700"> {{ item.animalName}} </td>
           <td class="w-3/12 border border-slate-700"> {{ item.betAmount}} </td>
