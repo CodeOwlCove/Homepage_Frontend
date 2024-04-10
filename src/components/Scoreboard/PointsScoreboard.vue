@@ -7,7 +7,7 @@ var timer: any;
 
 onMounted(() => {
   pointScoreStore.updatePointsHighscore();
-  timer = setInterval(() => { pointScoreStore.updatePointsHighscore(); }, 1000);
+  timer = setInterval(() => { pointScoreStore.updatePointsHighscore(); }, 10000);
 });
 
 onUnmounted(() => {
