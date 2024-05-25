@@ -3,10 +3,20 @@
     <div class="mt-10">
       <div class="text-center">
       <h1>Welcome to My Project</h1>
-        <p>My name is CodeOwlCove aka Gwitninm, and I'm a developer working on this project.</p>
-        <p>This project is built using Vue.js, TypeScript, and Vite. It's a fun and challenging project that I'm excited to share with you.</p>
+        <p>My name is CodeOwlCove aka Gwitninm aka Luca, and I'm a developer working on this project.</p>
+        <p>This Website is built using Vue.js, TypeScript, Spring, Java and a MySQL Database (so far). It is automatically build and deployed via GitHub Actions, Docker and my own little scripts<
+          It's a fun little challenging project that I'm excited to share with you.</p>
+        <p>The Goal with this Website is to continuously add new little project to learn new and interesting technologies.</p>
+        <br>
+        <p> The Animal Race game is done so far and the next project is already in development. Although I dont know how it is gonna take to implement.</p>
+        <p> The next Project is a little Browser-Based-RPG where you can Fight with different classes against monsters and gain gold and loot.
+        The main idea is to implement the RPG in different backend languages (mainly Java, Python, Go, C# and maybe Rust? or Zig) to get a better understanding why one would use one over another.
+        Lastly I want to document my experience and share it here with you.</p>
+        <br>
         <p>Feel free to explore and let me know if you have any questions or feedback.</p>
-        <p>To play the Animal Race game go to <a href="https://twitch.com/codeowlcove" target="_blank">My Twitch Channel</a> or <a href="https://twitch.com/codeowlcove/chat" target="_blank">Chat only</a> and enter the following commands:</p>
+        <br>
+        <p>To play the Animal Race game go to <a href="https://twitch.com/codeowlcove" target="_blank">My Twitch Channel</a> or <a href="https://twitch.com/codeowlcove/chat" target="_blank">Chat only</a> and enter the following commands. (You need a twitch account to do so)</p>
+        <p> You get 100 free points at the start and can bet the Points in the betting pace. Then when your bet on animal is in 1-3 place you get a payout otherwise you get nothing. Good day sir :)</p>
       </div>
       <div class="mt-5">
         <h1 class="text-3xl text-left">Commands:</h1>
@@ -34,7 +44,13 @@
 </template>
 
 <script setup lang="ts">
-// You can add your TypeScript code here
+
+import {onMounted} from "vue";
+
+onMounted(() => {
+
+});
+
 </script>
 
 <style scoped>
