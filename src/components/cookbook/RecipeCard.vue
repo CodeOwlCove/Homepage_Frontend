@@ -2,7 +2,10 @@
   <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-4">
   <div class="md:flex">
     <div class="p-8" v-if="recipe != undefined">
-      <h2>({{recipe.id}}) {{recipe.title}}</h2>
+      <div class="flex">
+        <h2>({{recipe.id}}) {{recipe.title}}</h2>
+        <button class="delete-button" @click="confirmDelete">X</button>
+      </div>
 
       <hr><br>
 
@@ -88,6 +91,20 @@ async function toggleLike() {
   liked.value = !liked.value;
 }
 
+async function confirmDelete() {
+  if (window.confirm('Are you sure you want to delete this recipe?')) {
+    if (props.recipe) {
+      await axios.post(import.meta.env.VITE_POINTS_COOKBOOK_ENDPOINT + "/deleteRecipeById", {
+        Id: props.recipe.id,
+      }).then((response) => {
+        cookBookStore.fetchAllRecipes();
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+  }
+}
+
 function formatString(input: string) {
   return input.replace(/\n/g, "<br><br>");
 }
@@ -133,5 +150,18 @@ button:hover {
 .unliked:hover {
   background-color: #0b5ed7;
   border-color: #0a58ca;
+}
+
+.delete-button {
+  color: white;
+  background-color: red;
+  border: none;
+  padding: 2px 5px; /* Reduced padding to make the button smaller */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px; /* Reduced font size to make the button smaller */
+  margin-left: auto; /* Push the button to the right */
+  cursor: pointer;
 }
 </style>
