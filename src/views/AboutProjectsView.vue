@@ -3,7 +3,8 @@
 </script>
 
 <template>
-
+  <br>
+  <div>Coming soon ...</div>
 </template>
 
 <style scoped>
