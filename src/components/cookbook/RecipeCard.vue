@@ -58,7 +58,7 @@ async function toggleLike() {
   }
 
   if (liked.value) {
-    await axios.post("http://localhost:8085/removeLike",{
+    await axios.post(import.meta.env.VITE_POINTS_COOKBOOK_ENDPOINT + "/removeLike",{
         Id: props.recipe.id
     }).then((response) => {
       //@ts-ignore shit is not undefined here...
@@ -72,7 +72,7 @@ async function toggleLike() {
     });
 
   } else {
-    await axios.post(`http://localhost:8085/addLike`, {
+    await axios.post(import.meta.env.VITE_POINTS_COOKBOOK_ENDPOINT + `/addLike`, {
       Id: props.recipe.id,
     }).then((response) => {
       //@ts-ignore shit is not undefined here...

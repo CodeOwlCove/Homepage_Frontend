@@ -97,7 +97,7 @@ function removeTag(index: number) {
 }
 
 function submitRecipe() {
-  axios.post('http://localhost:8085/writeRecipe', {
+  axios.post(import.meta.env.VITE_POINTS_COOKBOOK_ENDPOINT + '/writeRecipe', {
     title: title.value,
     tags: tags.value,
     ingredients: ingredients.value,

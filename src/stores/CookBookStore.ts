@@ -27,7 +27,7 @@ export const useCookBookStore = defineStore("CookBookStore",  {
     },
     actions: {
         fetchAllRecipes(){
-            axios.get("http://localhost:8085/getAllRecipes").then((response) => {
+            axios.get(import.meta.env.VITE_POINTS_COOKBOOK_ENDPOINT + "/getAllRecipes").then((response) => {
                 this.recipes = response.data;
             }).catch((error) => {
                 console.log(error);
